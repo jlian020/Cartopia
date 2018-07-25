@@ -6,11 +6,10 @@ var express = require('express'),
     Comment = require('./models/comment'),
     seedDB = require('./seed')
 
-seedDB();
-
-app.use(bodyParser.urlencoded({extended: true }));
-
 mongoose.connect("mongodb://localhost:27017/Cartopia", { useNewUrlParser: true });
+app.use(bodyParser.urlencoded({extended: true }));
+app.use(express.static(__dirname + "/public"));
+seedDB();
 
 // SCHEMA SET UP
 
