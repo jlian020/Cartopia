@@ -23,40 +23,40 @@ var data = [
 function seedDB(){
    //Remove all vehicles
    Vehicle.remove({}, function(err){
-        if(err){
-            console.log(err);
-        }
-        console.log("removed vehicles!");
-        Comment.remove({}, function(err) {
-            if(err){
-                console.log(err);
-            }
-            console.log("removed comments!");
-             //add a few vehicles
-            data.forEach(function(seed){
-                Vehicle.create(seed, function(err, vehicle){
-                    if(err){
-                        console.log(err)
-                    } else {
-                        console.log("added a vehicle");
-                        //create a comment
-                        Comment.create(
-                            {
-                                text: "This place is great, but I wish there was internet",
-                                author: "Homer"
-                            }, function(err, comment){
-                                if(err){
-                                    console.log(err);
-                                } else {
-                                    vehicle.comments.push(comment);
-                                    vehicle.save();
-                                    console.log("Created new comment");
-                                }
-                            });
-                    }
-                });
-            });
-        });
+        // if(err){
+        //     console.log(err);
+        // }
+        // console.log("removed vehicles!");
+        // Comment.remove({}, function(err) {
+        //     if(err){
+        //         console.log(err);
+        //     }
+        //     console.log("removed comments!");
+        //      //add a few vehicles
+        //     data.forEach(function(seed){
+        //         Vehicle.create(seed, function(err, vehicle){
+        //             if(err){
+        //                 console.log(err)
+        //             } else {
+        //                 console.log("added a vehicle");
+        //                 //create a comment
+        //                 Comment.create(
+        //                     {
+        //                         text: "This place is great, but I wish there was internet",
+        //                         author: "Homer"
+        //                     }, function(err, comment){
+        //                         if(err){
+        //                             console.log(err);
+        //                         } else {
+        //                             vehicle.comments.push(comment);
+        //                             vehicle.save();
+        //                             console.log("Created new comment");
+        //                         }
+        //                     });
+        //             }
+        //         });
+        //     });
+        // });
     });
     //add a few comments
 }
