@@ -19,8 +19,12 @@ router.post("/", function(req, res) {
   var carName = req.body.name;
   var carImage = req.body.image;
   var carDescription = req.body.description;
+  var carAuthor = {
+    id: req.user._id,
+    username: req.user.username
+  }
 
-  var newCar = {name: carName, img: carImage, description: carDescription};
+  var newCar = {name: carName, img: carImage, description: carDescription, author: carAuthor};
 
   Car.create(newCar, isLoggedIn, function(err, item) {
     if(err) {
