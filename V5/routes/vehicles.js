@@ -57,17 +57,15 @@ router.get("/:id", function(req, res) {
 });
 
 // EDIT
-router.get("/:id/edit", function(req, res) {
+router.get("/:id/edit", checkOwnership, function(req, res) {
+
   Car.findById(req.params.id, function(err, foundVehicle) {
-    if(err) {
-      res.redirect("/vehicles");
-    } else {
-      res.render("vehicles/edit.ejs", {vehicle: foundVehicle});
-    }
-  })
+        res.render("vehicles/edit.ejs", {vehicle: foundVehicle});
+  });
+
 });
 
-router.put("/:id", function(req, res) {
+router.put("/:id", checkOwnership, function(req, res) {
     // find and update the vehicle
     Car.findByIdAndUpdate(req.params.id, req.body.vehicle, function(err, foundVehicle) {
       if(err) {
@@ -79,12 +77,42 @@ router.put("/:id", function(req, res) {
     // redirect to SHOW PAGE
 });
 
+// DELETE
+router.delete("/:id", checkOwnership, function(req, res) {
+  Car.findByIdAndRemove(req.params.id, function(err) {
+    if(err) {
+      res.redirect("/vehicles");
+    } else {
+      res.redirect("/vehicles");
+    }
+  })
+});
+
 function isLoggedIn(req, res, next) {
   if(req.isAuthenticated()) {
     return next();
   }
 
   res.redirect("/login");
+}
+
+function checkOwnership(req, res, next) {
+  if(req.isAuthenticated()) {
+    Car.findById(req.params.id, function(err, foundVehicle) {
+      if(err) {
+        res.redirect("/vehicles");
+      } else {
+        if(foundVehicle.author.id.equals(req.user._id)) {
+          // res.render("vehicles/edit.ejs", {vehicle: foundVehicle});
+          next();
+        } else {
+          res.redirect("back");
+        }
+      }
+    })
+  } else {
+    res.redirect("back");
+  }
 }
 
 module.exports = router;

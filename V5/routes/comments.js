@@ -29,13 +29,33 @@ router.post("/", isLoggedIn, function(req, res) {
           comment.author.id = req.user._id;
           comment.author.username = req.user.username;
           comment.save();
-          
+
           foundVehicle.comments.push(comment);
           foundVehicle.save();
 
           res.redirect("/vehicles/" + foundVehicle._id)
         }
       });
+    }
+  });
+});
+
+router.get("/:comment_id/edit", function(req, res) {
+  Comment.findById(req.params.comment_id, function(err, foundComment) {
+    if(err) {
+      res.redirect("back");
+    } else {
+      res.render("comments/edit.ejs", {vehicle_id: req.params.id, comment: foundComment});
+    }
+  });
+});
+
+router.put("/:comment_id", function(req, res) {
+  Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function(err, updatedComment) {
+    if(err) {
+      res.redirect("back");
+    } else {
+      res.redirect("/vehicles/" + req.params.id);
     }
   });
 });
