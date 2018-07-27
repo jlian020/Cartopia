@@ -40,7 +40,8 @@ router.post("/", isLoggedIn, function(req, res) {
   });
 });
 
-router.get("/:comment_id/edit", function(req, res) {
+// EDIT COMMENT
+router.get("/:comment_id/edit", checkOwnership, function(req, res) {
   Comment.findById(req.params.comment_id, function(err, foundComment) {
     if(err) {
       res.redirect("back");
@@ -50,7 +51,7 @@ router.get("/:comment_id/edit", function(req, res) {
   });
 });
 
-router.put("/:comment_id", function(req, res) {
+router.put("/:comment_id", checkOwnership, function(req, res) {
   Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function(err, updatedComment) {
     if(err) {
       res.redirect("back");
@@ -60,12 +61,44 @@ router.put("/:comment_id", function(req, res) {
   });
 });
 
+// DELETE COMMENT
+router.delete("/:comment_id", checkOwnership, function(req, res) {
+  Comment.findByIdAndRemove(req.params.comment_id, function(err) {
+    if(err) {
+      res.redirect("back");
+    } else {
+      res.redirect("/vehicles/" + req.params.id);
+    }
+  })
+});
+
+// MIDDLEWARE
+
 function isLoggedIn(req, res, next) {
   if(req.isAuthenticated()) {
     return next();
   }
 
   res.redirect("/login");
+}
+
+function checkOwnership(req, res, next) {
+  if(req.isAuthenticated()) {
+    Comment.findById(req.params.comment_id, function(err, foundComment) {
+      if(err) {
+        res.redirect("back");
+      } else {
+        if(foundComment.author.id.equals(req.user._id)) {
+          // res.render("vehicles/edit.ejs", {vehicle: foundVehicle});
+          next();
+        } else {
+          res.redirect("back");
+        }
+      }
+    })
+  } else {
+    res.redirect("back");
+  }
 }
 
 module.exports = router;
