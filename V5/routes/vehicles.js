@@ -48,11 +48,35 @@ router.get("/:id", function(req, res) {
   Car.findById(req.params.id).populate("comments").exec(function(err, foundVehicle) {
     if(err) {
       console.log(err);
+      res.redirect("/vehicles");
     } else {
       console.log(foundVehicle);
       res.render("vehicles/show.ejs", {vehicle: foundVehicle});
     }
   });
+});
+
+// EDIT
+router.get("/:id/edit", function(req, res) {
+  Car.findById(req.params.id, function(err, foundVehicle) {
+    if(err) {
+      res.redirect("/vehicles");
+    } else {
+      res.render("vehicles/edit.ejs", {vehicle: foundVehicle});
+    }
+  })
+});
+
+router.put("/:id", function(req, res) {
+    // find and update the vehicle
+    Car.findByIdAndUpdate(req.params.id, req.body.vehicle, function(err, foundVehicle) {
+      if(err) {
+        res.redirect("/vehicles");
+      } else {
+        res.redirect("/vehicles/" + req.params.id)
+      }
+    })
+    // redirect to SHOW PAGE
 });
 
 function isLoggedIn(req, res, next) {

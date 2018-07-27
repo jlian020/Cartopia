@@ -8,7 +8,8 @@ var express = require('express'),
     seedDB = require('./seed'),
     passport = require('passport'),
     localStrategy = require('passport-local'),
-    passportLocalMongoose = require('passport-local-mongoose');
+    passportLocalMongoose = require('passport-local-mongoose'),
+    methodOverride = require('method-override');
 
 var vehicleRoutes = require('./routes/vehicles'),
     commentRoutes = require('./routes/comments'),
@@ -17,6 +18,7 @@ var vehicleRoutes = require('./routes/vehicles'),
 mongoose.connect("mongodb://localhost:27017/Cartopia", { useNewUrlParser: true });
 app.use(bodyParser.urlencoded({extended: true }));
 app.use(express.static(__dirname + "/public"));
+app.use(methodOverride('_method'));
 
 // seedDB();
 
