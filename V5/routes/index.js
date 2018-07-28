@@ -16,10 +16,11 @@ router.get("/register", function(req, res) {
 router.post("/register", function(req, res) {
   User.register(new User({username: req.body.username}), req.body.password, function(err, user) {
     if(err) {
-      console.log(err);
-      return res.render("register.ejs")
+      req.flash("error", err.message);
+      res.redirect("/register")
     }
     passport.authenticate("local")(req, res, function() {
+      req.flash("success", "Welcome to Cartopia, You have logged in!");
       res.redirect("/vehicles");
     });
   });
@@ -37,6 +38,7 @@ router.post("/login", passport.authenticate("local", {
 
 router.get("/logout", function(req, res) {
   req.logout();
+  req.flash("success", "Logged You Out!");
   res.redirect("/");
 });
 
@@ -44,7 +46,7 @@ function isLoggedIn(req, res, next) {
   if(req.isAuthenticated()) {
     return next();
   }
-
+  req.flash("error", "Please Log In First!");
   res.redirect("/login");
 }
 

@@ -24,7 +24,7 @@ router.post("/", isLoggedIn, function(req, res) {
       console.log(req.body.comment);
       Comment.create(req.body.comment, function(err, comment) {
         if(err) {
-          console.log(err);
+          req.flash("error", "Something went wrong :(");
         } else {
           comment.author.id = req.user._id;
           comment.author.username = req.user.username;
@@ -33,6 +33,7 @@ router.post("/", isLoggedIn, function(req, res) {
           foundVehicle.comments.push(comment);
           foundVehicle.save();
 
+          req.flash("success", "Successfully created comment!");
           res.redirect("/vehicles/" + foundVehicle._id)
         }
       });
@@ -65,8 +66,10 @@ router.put("/:comment_id", checkOwnership, function(req, res) {
 router.delete("/:comment_id", checkOwnership, function(req, res) {
   Comment.findByIdAndRemove(req.params.comment_id, function(err) {
     if(err) {
+      req.flash("error", "Something went wrong, comment did not delete.");
       res.redirect("back");
     } else {
+      req.flash("success", "Comment has been deleted.");
       res.redirect("/vehicles/" + req.params.id);
     }
   })
@@ -78,7 +81,7 @@ function isLoggedIn(req, res, next) {
   if(req.isAuthenticated()) {
     return next();
   }
-
+  req.flash("error", "Please Log In First!");
   res.redirect("/login");
 }
 
@@ -86,17 +89,20 @@ function checkOwnership(req, res, next) {
   if(req.isAuthenticated()) {
     Comment.findById(req.params.comment_id, function(err, foundComment) {
       if(err) {
+        req.flash("error", "Cannot find comment");
         res.redirect("back");
       } else {
         if(foundComment.author.id.equals(req.user._id)) {
           // res.render("vehicles/edit.ejs", {vehicle: foundVehicle});
           next();
         } else {
+          req.flash("error", "You do not have permission.");
           res.redirect("back");
         }
       }
     })
   } else {
+    req.flash("error", "Please Log In First!");
     res.redirect("back");
   }
 }

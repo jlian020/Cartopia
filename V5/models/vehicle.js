@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 
 var carSchema = new mongoose.Schema({
   name: String,
+  price: String,
   img: String,
   description: String,
   comments: [

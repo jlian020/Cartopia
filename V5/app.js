@@ -9,7 +9,10 @@ var express = require('express'),
     passport = require('passport'),
     localStrategy = require('passport-local'),
     passportLocalMongoose = require('passport-local-mongoose'),
-    methodOverride = require('method-override');
+    methodOverride = require('method-override'),
+    flash = require('connect-flash'),
+    fs = require('fs'),
+    path = require('path');
 
 var vehicleRoutes = require('./routes/vehicles'),
     commentRoutes = require('./routes/comments'),
@@ -19,7 +22,7 @@ mongoose.connect("mongodb://localhost:27017/Cartopia", { useNewUrlParser: true }
 app.use(bodyParser.urlencoded({extended: true }));
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride('_method'));
-
+app.use(flash());
 // seedDB();
 
 // SETUP PASSPORT //
@@ -38,6 +41,8 @@ passport.deserializeUser(User.deserializeUser());
 // SENDS req.user to every EJS
 app.use(function(req, res, next) {
   res.locals.currentUser = req.user;
+  res.locals.error = req.flash("error");
+  res.locals.success = req.flash("success");
   next();
 })
 

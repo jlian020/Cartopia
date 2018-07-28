@@ -11,12 +11,12 @@ router.get("/", function(req, res) {
       res.render("vehicles/vehicles.ejs", {vehicles: allCars});
     }
   })
-  // res.render("vehicles.ejs", {vehicles: vehicles});
 });
 
 // CREATE
 router.post("/", function(req, res) {
   var carName = req.body.name;
+  var carPrice = req.body.price;
   var carImage = req.body.image;
   var carDescription = req.body.description;
   var carAuthor = {
@@ -24,7 +24,7 @@ router.post("/", function(req, res) {
     username: req.user.username
   }
 
-  var newCar = {name: carName, img: carImage, description: carDescription, author: carAuthor};
+  var newCar = {name: carName, price: carPrice, img: carImage, description: carDescription, author: carAuthor};
 
   Car.create(newCar, isLoggedIn, function(err, item) {
     if(err) {
@@ -81,8 +81,10 @@ router.put("/:id", checkOwnership, function(req, res) {
 router.delete("/:id", checkOwnership, function(req, res) {
   Car.findByIdAndRemove(req.params.id, function(err) {
     if(err) {
+      req.flash("error", "Something went wrong, Vehicle was not deleted.");
       res.redirect("/vehicles");
     } else {
+      req.flash("success", "Vehicle has been deleted.");
       res.redirect("/vehicles");
     }
   })
@@ -93,7 +95,7 @@ function isLoggedIn(req, res, next) {
   if(req.isAuthenticated()) {
     return next();
   }
-
+  req.flash("error", "Please Log In First!");
   res.redirect("/login");
 }
 
@@ -101,17 +103,20 @@ function checkOwnership(req, res, next) {
   if(req.isAuthenticated()) {
     Car.findById(req.params.id, function(err, foundVehicle) {
       if(err) {
+        req.flash("error", "Vehicle not found.");
         res.redirect("/vehicles");
       } else {
         if(foundVehicle.author.id.equals(req.user._id)) {
           // res.render("vehicles/edit.ejs", {vehicle: foundVehicle});
           next();
         } else {
+          req.flash("error", "You do not have permission.");
           res.redirect("back");
         }
       }
     })
   } else {
+    req.flash("error", "Please Log In First!");
     res.redirect("back");
   }
 }
