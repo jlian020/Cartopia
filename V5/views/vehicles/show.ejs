@@ -6,8 +6,8 @@
       <p class="lead">Cartopia</p>
       <div class="list-group">
         <li class="list-group-item active">Info 1</li>
-        <li class="list-group-item">Info 2</li>
-        <li class="list-group-item">Info 3</li>
+        <!-- <li class="list-group-item">Info 2</li>
+        <li class="list-group-item">Info 3</li> -->
       </div>
     </div>
 
@@ -34,16 +34,16 @@
             <div class="col-md-2">
               <strong><%= comment.author.username %></strong>
               <div>10 Days Ago</div>
+              <% if(currentUser && comment.author.id.equals(currentUser.id)) { %>
+                <a class="btn btn-warning" href="/vehicles/<%= vehicle._id %>/comments/<%= comment._id %>/edit">EDIT</a>
+                <form action="/vehicles/<%= vehicle._id %>/comments/<%= comment._id%>/?_method=DELETE" method="POST">
+                  <input class="btn btn-danger" type="submit" value="DELETE">
+                </form>
+              <% } %>
             </div>
             <div class="col-md-10">
               <%= comment.text %>
             </div>
-            <% if(currentUser && vehicle.author.id.equals(currentUser.id)) { %>
-              <a class="btn btn-xs btn-warning" href="/vehicles/<%= vehicle._id %>/comments/<%= comment._id %>/edit">EDIT</a>
-              <form action="/vehicles/<%= vehicle._id %>/comments/<%= comment._id%>/?_method=DELETE" method="POST">
-                <input class="btn btn-xs btn-danger" type="submit" value="DELETE">
-              </form>
-            <% } %>
           <% }) %>
         </div>
         <div class="ml-auto"><p><a class="btn btn-success" href="/vehicles/<%= vehicle._id %>/comments/new">Add a New Comment</a></p></div>
@@ -51,11 +51,5 @@
     </div>
   </div>
 </div>
-
-<!-- <% vehicle.comments.forEach(function(comment) { %>
-  <p>
-    <strong><%= comment.author %></strong> - <%= comment.text %>
-  </p>
-<% }) %> -->
 
 <% include ../partials/footer.ejs %>

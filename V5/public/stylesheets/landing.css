@@ -1,6 +1,5 @@
 body {
   background: black;
-
 }
 
 .slideshow {
@@ -70,12 +69,19 @@ body {
   z-index: 1;
   position: relative;
   text-align: center;
-  padding-top: 40vh;
+  padding-top: 10vh;
+}
+
+#landing-button {
+  z-index: 1;
+  position: relative;
+  text-align: center;
+  padding-top: 33%;
 }
 
 #landing-header h1 {
   color: #fff;
-  font-size: 100px;
+  font-size: 150px;
 }
 
 /* Older browser support - .no-cssanimations class added by modernizr */

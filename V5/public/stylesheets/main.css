@@ -1,3 +1,20 @@
+a {
+  color: black;
+  text-decoration: none !important;
+}
+
+.jumbotron {
+  text-align: center;
+}
+
+.jumbotron h1 {
+  font-size: 100px;
+}
+
+.jumbotron p {
+  font-size: 30px;
+}
+
 .img-thumbnail img {
   width: 100%;
 }
@@ -8,6 +25,17 @@
 
 .img-thumbnail .caption-full {
   padding: 10px;
+}
+
+.caption {
+  text-align: center;
+  padding-top: 3%;
+}
+
+.caption p {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 #deleteForm {

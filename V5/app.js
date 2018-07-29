@@ -12,14 +12,13 @@ var express = require('express'),
     methodOverride = require('method-override'),
     flash = require('connect-flash'),
     fs = require('fs'),
-    path = require('path');
+    path = require('path'),
+    favicon = require('serve-favicon');
 
 var vehicleRoutes = require('./routes/vehicles'),
     commentRoutes = require('./routes/comments'),
     indexRoutes = require('./routes/index');
 
-// mongoose.connect("mongodb://localhost:27017/Cartopia", { useNewUrlParser: true });
-// mongoose.connect("mongodb://david:junhao13@ds139970.mlab.com:39970/cartopia");
 mongoose.connect(process.env.DATABASEURL, { useNewUrlParser: true });
 
 app.use(bodyParser.urlencoded({extended: true }));
@@ -27,7 +26,9 @@ app.use(express.static(__dirname + "/public"));
 app.use(methodOverride('_method'));
 app.use(flash());
 // seedDB();
+app.use(favicon(__dirname + '/public/favicon.ico'));
 
+console.log(__dirname);
 // SETUP PASSPORT //
 app.use(require("express-session") ({
   secret: "Johnny Situ is smelly haha",
