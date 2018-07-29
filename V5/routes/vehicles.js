@@ -31,7 +31,7 @@ router.post("/", function(req, res) {
       console.log(err);
     } else {
       console.log("Car has been added to the database");
-      console.log(item);
+      // console.log(item);
     }
   });
 
@@ -50,7 +50,7 @@ router.get("/:id", function(req, res) {
       console.log(err);
       res.redirect("/vehicles");
     } else {
-      console.log(foundVehicle);
+      // console.log(foundVehicle);
       res.render("vehicles/show.ejs", {vehicle: foundVehicle});
     }
   });

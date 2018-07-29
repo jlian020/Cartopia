@@ -18,7 +18,10 @@ var vehicleRoutes = require('./routes/vehicles'),
     commentRoutes = require('./routes/comments'),
     indexRoutes = require('./routes/index');
 
-mongoose.connect("mongodb://localhost:27017/Cartopia", { useNewUrlParser: true });
+// mongoose.connect("mongodb://localhost:27017/Cartopia", { useNewUrlParser: true });
+// mongoose.connect("mongodb://david:junhao13@ds139970.mlab.com:39970/cartopia");
+mongoose.connect(process.env.DATABASEURL, { useNewUrlParser: true });
+
 app.use(bodyParser.urlencoded({extended: true }));
 app.use(express.static(__dirname + "/public"));
 app.use(methodOverride('_method'));
@@ -50,6 +53,6 @@ app.use("/vehicles", vehicleRoutes);
 app.use("/vehicles/:id/comments", commentRoutes);
 app.use("/", indexRoutes);
 
-app.listen(3000, function() {
+app.listen(process.env.PORT || 3000, function() {
   console.log("Now running Cartopia Server");
 });

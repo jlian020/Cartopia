@@ -21,7 +21,7 @@ router.post("/", isLoggedIn, function(req, res) {
       console.log(err);
       res.redirect("/vehicles");
     } else {
-      console.log(req.body.comment);
+      // console.log(req.body.comment);
       Comment.create(req.body.comment, function(err, comment) {
         if(err) {
           req.flash("error", "Something went wrong :(");
