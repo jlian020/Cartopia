@@ -3,6 +3,11 @@ a {
   text-decoration: none !important;
 }
 
+.title {
+  margin-left: 15%;
+  font-size: 30px;
+}
+
 .jumbotron {
   text-align: center;
 }
@@ -13,6 +18,19 @@ a {
 
 .jumbotron p {
   font-size: 30px;
+}
+
+.deleteButton {
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  border: none;
+  cursor:pointer;
+  overflow: hidden;
+  outline:none;
+}
+
+.deleteButton:hover {
+  color: red;
 }
 
 .img-thumbnail img {

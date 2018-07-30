@@ -82,6 +82,9 @@ body {
 #landing-header h1 {
   color: #fff;
   font-size: 150px;
+  /* font-family: Montserrat; */
+  /* font-family: "Open Sans"; */
+  font-family: "Maven Pro";
 }
 
 /* Older browser support - .no-cssanimations class added by modernizr */

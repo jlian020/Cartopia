@@ -20,9 +20,9 @@
           <p><%= vehicle.description %></p>
           <p><em>Submitted By <%= vehicle.author.username %></em></p>
           <% if(currentUser && vehicle.author.id.equals(currentUser.id)) { %>
-            <a class="btn btn-warning" href="/vehicles/<%= vehicle._id %>/edit">EDIT</a>
+            <a href="/vehicles/<%= vehicle._id %>/edit"><i class="fas fa-edit"></i></a>
             <form id="deleteForm" action="/vehicles/<%= vehicle._id %>/?_method=DELETE" method="POST">
-              <button class="btn btn-danger">DELETE</button>
+              <button class="deleteButton"><i class="fas fa-trash-alt"></i></button>
             </form>
           <% } %>
         </div>
@@ -33,12 +33,14 @@
           <% vehicle.comments.forEach(function(comment) { %>
             <div class="col-md-2">
               <strong><%= comment.author.username %></strong>
-              <div>10 Days Ago</div>
+              <!-- <div>10 Days Ago</div> -->
               <% if(currentUser && comment.author.id.equals(currentUser.id)) { %>
-                <a class="btn btn-warning" href="/vehicles/<%= vehicle._id %>/comments/<%= comment._id %>/edit">EDIT</a>
-                <form action="/vehicles/<%= vehicle._id %>/comments/<%= comment._id%>/?_method=DELETE" method="POST">
-                  <input class="btn btn-danger" type="submit" value="DELETE">
-                </form>
+                <div>
+                  <a href="/vehicles/<%= vehicle._id %>/comments/<%= comment._id %>/edit"><i class="fas fa-edit"></i></a>
+                  <form id="deleteForm" action="/vehicles/<%= vehicle._id %>/comments/<%= comment._id%>/?_method=DELETE" method="POST">
+                    <button class="deleteButton"><i class="fas fa-trash-alt"></i></button>
+                  </form>
+                </div>
               <% } %>
             </div>
             <div class="col-md-10">
@@ -46,7 +48,7 @@
             </div>
           <% }) %>
         </div>
-        <div class="ml-auto"><p><a class="btn btn-success" href="/vehicles/<%= vehicle._id %>/comments/new">Add a New Comment</a></p></div>
+        <div class="ml-auto"><p><a class="btn btn-dark" href="/vehicles/<%= vehicle._id %>/comments/new">New Comment</a></p></div>
       </div>
     </div>
   </div>
