@@ -1,0 +1,27 @@
+<% include ../partials/header.ejs %>
+
+<div class="container">
+  <header class="jumbotron">
+    <h1>Welcome to Cartopia!</h1>
+    <p>See all of the luxurious cars to rent!</p>
+    <p><a class="btn btn-large btn-light" href="/vehicles/new">Add a new vehicle</a></p>
+  </header>
+
+  <div class="row" style="display:flex; flex-wrap: wrap;">
+    <% vehicles.forEach(function(vehicle) { %>
+      <div class="col-md-3 col-sm-6">
+        <a href="/vehicles/<%= vehicle._id%>">
+          <div class="img-thumbnail">
+            <img  style="width:100%" src=" <%= vehicle.img %> ">
+            <div class="caption">
+              <h4><%= vehicle.name %></h4>
+              <p><%= vehicle.description %></p>
+            </div>
+          </div>
+        </a>
+      </div>
+    <% }); %>
+  </div>
+</div>
+
+<% include ../partials/footer.ejs %>
