@@ -19,7 +19,9 @@ var vehicleRoutes = require('./routes/vehicles'),
     commentRoutes = require('./routes/comments'),
     indexRoutes = require('./routes/index');
 
-mongoose.connect(process.env.DATABASEURL, { useNewUrlParser: true });
+// mongoose.connect(process.env.DATABASEURL, { useNewUrlParser: true });
+// mongoose.connect("mongodb://david:junhao13@ds139970.mlab.com:39970/cartopia");
+mongoose.connect("mongodb://localhost:27017/Cartopia", { useNewUrlParser: true });
 
 app.use(bodyParser.urlencoded({extended: true }));
 app.use(express.static(__dirname + "/public"));
